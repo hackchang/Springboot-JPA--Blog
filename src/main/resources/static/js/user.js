@@ -3,6 +3,9 @@ let index = {
 		$("#btn-save").on("click",()=>{ // function(){} , -> ()=> this를 바인딩 하기 위해서
 			this.save();
 		});
+		$("#btn-update").on("click",()=>{ // function(){} , -> ()=> this를 바인딩 하기 위해서
+			this.update();
+		});
 	},
 	save:  function(){
 		//alert('user의 save함수 호출됨.');
@@ -31,6 +34,27 @@ let index = {
 		}); 
 		
 		
+	},
+	update:  function(){
+		let data = {
+				username:$("#username").val(),
+				password: $("#password").val(),
+				email: $("#email").val(),
+				id: $("#id").val()
+		}
+		$.ajax({
+			type:"PUT",
+			url:"/user/",
+			data: JSON.stringify(data), //http body 데이터
+			contentType : "application/json; charset=utf-8", // body 데이터 타입(MIME)
+			dataType: "json" // 요청을 서버로해서 응답이 왔을 때 기본은 문자열 , 아래 response가 js object로 변경 
+		}).done(function(res){
+			console.log(res);
+			alert("수정이 완료되었습니다.");
+			location.href="/";
+		}).fail(function(res){
+			alert(JSON.stringify(res));
+		}); 
 	}
 }
 
