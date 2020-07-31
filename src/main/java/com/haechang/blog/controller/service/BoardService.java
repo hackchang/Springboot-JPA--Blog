@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.haechang.blog.controller.dto.ReplySaveRequestDto;
 import com.haechang.blog.model.Board;
-import com.haechang.blog.model.Reply;
 import com.haechang.blog.model.User;
 import com.haechang.blog.repository.BoardRepository;
 import com.haechang.blog.repository.ReplyRepository;
@@ -64,16 +63,7 @@ public class BoardService {
 
 	@Transactional
 	public void reply(ReplySaveRequestDto replySaveRequestDto) {
-		User user = userRepository.findById(replySaveRequestDto.getUserId()).orElseThrow(() -> {
-			return new IllegalArgumentException("댓글 쓰기 실패 : 유저 ID를 찾을 수 없습니다.");
-		}); // 영속화
-		Board board = boardRepository.findById(replySaveRequestDto.getBoardId()).orElseThrow(() -> {
-			return new IllegalArgumentException("댓글 쓰기 실패 : 게시글 ID를 찾을 수 없습니다.");
-		}); // 영속화
-
-		Reply reply = new Reply();
-		reply.write(user, board, replySaveRequestDto.getContent());
-
-		replyRepository.save(reply);
+		replyRepository.mSave(replySaveRequestDto.getUserId(), replySaveRequestDto.getBoardId(),
+				replySaveRequestDto.getContent());
 	}
 }
