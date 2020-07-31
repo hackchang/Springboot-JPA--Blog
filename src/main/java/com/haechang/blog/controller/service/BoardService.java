@@ -6,11 +6,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.haechang.blog.controller.dto.ReplySaveRequestDto;
 import com.haechang.blog.model.Board;
 import com.haechang.blog.model.Reply;
 import com.haechang.blog.model.User;
 import com.haechang.blog.repository.BoardRepository;
 import com.haechang.blog.repository.ReplyRepository;
+import com.haechang.blog.repository.UserRepository;
 
 //스프링이 컴포넌트 스캔을 통해 bean에 등록해줌 (IoC)
 @Service
@@ -18,6 +20,9 @@ public class BoardService {
 
 	@Autowired
 	private BoardRepository boardRepository;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	@Autowired
 	private ReplyRepository replyRepository;
@@ -58,12 +63,17 @@ public class BoardService {
 	}
 
 	@Transactional
-	public void reply(User user, int boardId, Reply reqReply) {
-		Board board = boardRepository.findById(boardId).orElseThrow(() -> {
+	public void reply(ReplySaveRequestDto replySaveRequestDto) {
+		User user = userRepository.findById(replySaveRequestDto.getUserId()).orElseThrow(() -> {
+			return new IllegalArgumentException("댓글 쓰기 실패 : 유저 ID를 찾을 수 없습니다.");
+		}); // 영속화
+		Board board = boardRepository.findById(replySaveRequestDto.getBoardId()).orElseThrow(() -> {
 			return new IllegalArgumentException("댓글 쓰기 실패 : 게시글 ID를 찾을 수 없습니다.");
 		}); // 영속화
-		reqReply.setUser(user);
-		reqReply.setBoard(board);
-		replyRepository.save(reqReply);
+
+		Reply reply = new Reply();
+		reply.write(user, board, replySaveRequestDto.getContent());
+
+		replyRepository.save(reply);
 	}
 }
