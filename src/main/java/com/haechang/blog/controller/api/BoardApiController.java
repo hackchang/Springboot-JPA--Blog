@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.haechang.blog.config.auth.PrincipalDetail;
+import com.haechang.blog.controller.dto.LikeSaveRequestDto;
 import com.haechang.blog.controller.dto.ReplySaveRequestDto;
 import com.haechang.blog.controller.dto.ResponseDto;
 import com.haechang.blog.controller.service.BoardService;
@@ -44,6 +45,18 @@ public class BoardApiController {
 	@PostMapping("/api/board/{boardId}/reply")
 	public ResponseDto<Integer> replySave(@RequestBody ReplySaveRequestDto replySaveRequestDto) {
 		boardService.reply(replySaveRequestDto);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+	}
+
+	@PostMapping("/api/board/{boardId}/like")
+	public ResponseDto<Integer> likeSave(@RequestBody LikeSaveRequestDto likeSaveRequestDto) {
+		boardService.boardLikeSave(likeSaveRequestDto);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+	}
+
+	@DeleteMapping("/api/board/{boardId}/like")
+	public ResponseDto<Integer> likeDelete(@RequestBody LikeSaveRequestDto likeSaveRequestDto) {
+		boardService.boardLikeDelete(likeSaveRequestDto);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
 }

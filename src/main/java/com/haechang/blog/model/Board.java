@@ -42,7 +42,9 @@ public class Board {
 	private String content; // 섬머노트 라이브러리 <html> 태그가 섞여서 디자인
 
 //	@ColumnDefault("0") // int기 때문에 " ' ' " 안해도됨.
-	private int count; // 조회수
+	private int viewcount; // 조회수
+
+	private int likecount; // 조회수
 
 	@ManyToOne(fetch = FetchType.EAGER) // Many = Board, User = One 한 유저가 보드를 많이 사용가능
 	@JoinColumn(name = "userId")

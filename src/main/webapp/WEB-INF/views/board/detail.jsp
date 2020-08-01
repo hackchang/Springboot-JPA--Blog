@@ -8,11 +8,13 @@
 			<a href="/board/${board.id }/updateForm" class="btn btn-warning" }>수정</a>
 			<button id="btn-delete" class="btn btn-danger">삭제</button>
 		</c:if>
+		<button id="btn-like-save" class="btn btn-primary">좋아요</button>
 		<br /><br />
 		<div>
 			글 번호 : <span id="id"><i>${board.id }</i></span>
 			작성자 : <span id="userid"><i>${board.user.username }</i></span>
-			조회수 : <span id="id"><i>${board.count }</i></span>
+			조회수 : <span id="viewcount"><i>${board.viewcount }</i></span>
+			좋아요 :  <span id="likecount"><i>${board.likecount }</i></span>
 		</div>
 		<br />
 		<div>

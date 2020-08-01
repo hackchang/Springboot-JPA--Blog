@@ -6,9 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.haechang.blog.controller.dto.LikeSaveRequestDto;
 import com.haechang.blog.controller.dto.ReplySaveRequestDto;
 import com.haechang.blog.model.Board;
 import com.haechang.blog.model.User;
+import com.haechang.blog.repository.BoardLikeRepository;
 import com.haechang.blog.repository.BoardRepository;
 import com.haechang.blog.repository.ReplyRepository;
 import com.haechang.blog.repository.UserRepository;
@@ -26,9 +28,12 @@ public class BoardService {
 	@Autowired
 	private ReplyRepository replyRepository;
 
+	@Autowired
+	private BoardLikeRepository boardLikeRepository;
+
 	@Transactional
 	public void write(Board board, User user) { // title, content
-		board.setCount(0);
+		board.setViewcount(0);
 		board.setUser(user);
 		boardRepository.save(board);
 	}
@@ -65,5 +70,15 @@ public class BoardService {
 	public void reply(ReplySaveRequestDto replySaveRequestDto) {
 		replyRepository.mSave(replySaveRequestDto.getUserId(), replySaveRequestDto.getBoardId(),
 				replySaveRequestDto.getContent());
+	}
+
+	@Transactional
+	public void boardLikeSave(LikeSaveRequestDto likeSaveRequestDto) {
+		boardLikeRepository.mLikeSave(likeSaveRequestDto.getBoardId(), likeSaveRequestDto.getUserId());
+	}
+
+	@Transactional
+	public void boardLikeDelete(LikeSaveRequestDto likeSaveRequestDto) {
+		boardLikeRepository.mLikeDelete(likeSaveRequestDto.getBoardId(), likeSaveRequestDto.getUserId());
 	}
 }

@@ -12,6 +12,9 @@ let index = {
 		$("#btn-reply-save").on("click",()=>{
 			this.replySave();
 		});
+		$("#btn-like-save").on("click",()=>{
+			this.likeSave();
+		});
 	},
 	save:  function(){
 		//alert('user의 save함수 호출됨.');
@@ -89,6 +92,40 @@ let index = {
 			alert(JSON.stringify(res));
 		}); 
 	},
+	likeSave: function(){
+		let data= {
+			userId: $("#userId").val(),
+			boardId: $("#boardId").val()
+		}
+		$.ajax({
+			type:"POST",
+			url: `/api/board/{boardId}/like`,
+			data: JSON.stringify(data),
+			contentType : "application/json; charset=utf-8", 
+			dataType: "json" 
+		}).done(function(res){
+			alert("좋아요가 완료되었습니다.");
+			location.href=`/board/${data.boardId}`;
+		}).fail(function(res){
+			alert(JSON.stringify(res));
+		}); 
+	},
+	likeDelete: function(){
+		let data= {
+			userId: $("#userId").val(),
+			boardId: $("#boardId").val()
+		}
+		$.ajax({
+			type:"DELETE",
+			url: `/api/board/{boardId}/like`,
+			dataType: "json" 
+		}).done(function(res){
+			alert("좋아요가 취소되었습니다.");
+			location.href=`/board/${data.boardId}`;
+		}).fail(function(res){
+			alert(JSON.stringify(res));
+		}); 
+	}
 }
 
 index.init();
