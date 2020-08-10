@@ -26,9 +26,10 @@ let index = {
 			contentType : "application/json; charset=utf-8", // body 데이터 타입(MIME)
 			dataType: "json" // 요청을 서버로해서 응답이 왔을 때 기본은 문자열 , 아래 response가 js object로 변경 
 		}).done(function(res){
-			console.log(res);
-			alert("회원가입이 완료되었습니다.");
-			location.href="/";
+		
+			if(res.status === 500){ alert('회원가입에 실패했습니다.'); } 
+			else{	alert("회원가입이 완료되었습니다."); location.href="/";}
+			// location.href="/";
 		}).fail(function(res){
 			alert(JSON.stringify(res));
 		}); 

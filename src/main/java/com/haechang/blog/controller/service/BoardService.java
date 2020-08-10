@@ -34,6 +34,7 @@ public class BoardService {
 	@Transactional
 	public void write(Board board, User user) { // title, content
 		board.setViewcount(0);
+		board.setLikecount(0);
 		board.setUser(user);
 		boardRepository.save(board);
 	}
@@ -70,6 +71,11 @@ public class BoardService {
 	public void reply(ReplySaveRequestDto replySaveRequestDto) {
 		replyRepository.mSave(replySaveRequestDto.getUserId(), replySaveRequestDto.getBoardId(),
 				replySaveRequestDto.getContent());
+	}
+
+	@Transactional
+	public void replyDelete(int replyId) {
+		replyRepository.deleteById(replyId);
 	}
 
 	@Transactional

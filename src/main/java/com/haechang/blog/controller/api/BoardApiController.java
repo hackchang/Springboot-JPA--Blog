@@ -59,4 +59,10 @@ public class BoardApiController {
 		boardService.boardLikeDelete(likeSaveRequestDto);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
+
+	@DeleteMapping("/api/board/{boardId}/reply/{replyId}")
+	public ResponseDto<Integer> replyDelete(@PathVariable int replyId) {
+		boardService.replyDelete(replyId);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+	}
 }

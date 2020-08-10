@@ -92,6 +92,18 @@ let index = {
 			alert(JSON.stringify(res));
 		}); 
 	},
+	replyDelete:  function(boardId, replyId){
+		$.ajax({
+			type:"DELETE",
+			url: `/api/board/${boardId}/reply/${replyId}`,
+			dataType: "json" 
+		}).done(function(res){
+			alert("댓글 삭제가 완료되었습니다.");
+			location.href=`/board/${boardId}`;
+		}).fail(function(res){
+			alert(JSON.stringify(res));
+		}); 
+	},
 	likeSave: function(){
 		let data= {
 			userId: $("#userId").val(),
